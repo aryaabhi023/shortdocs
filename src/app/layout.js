@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${roboto.className} ${poppins.className} antialiased`}>
           <Navbar />
-          <main className="pt-8">
+          <main className="">
             {children}
           </main>
           <PopUp />
