@@ -29,7 +29,6 @@ export default function Edit({params}) {
         const fetchDocument = async () => {
             try {
                 const docData = await getDocumentById(id);
-                console.log(docData);
                 setContent(docData.content);
                 setDescription(docData.description);
                 setTitle(docData.title);

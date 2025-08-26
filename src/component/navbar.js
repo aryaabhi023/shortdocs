@@ -17,8 +17,6 @@ export default function Navbar() {
     return () => unsub();
   }, []);
   
-  console.log("Navbar user:", user);
-
   const linkClasses = (path) =>
     pathname === path
       ? "px-4 text-orange-400 font-bold"
