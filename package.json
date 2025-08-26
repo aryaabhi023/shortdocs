@@ -1,5 +1,5 @@
 {
-  "name": "bookmark",
+  "name": "shortdocs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@pathofdev/react-tag-input": "^1.0.7",
+    "@uiw/react-md-editor": "^4.0.8",
+    "firebase": "^12.1.0",
+    "framer-motion": "^12.23.12",
+    "next": "15.4.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.4.7"
+    "react-hot-toast": "^2.6.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

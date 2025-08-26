@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="300" viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Shub Logo</title>
+  <desc id="desc">A minimal logo with a rounded document icon and the word shub in dark gray.</desc>
+
+  <!-- Background (transparent) -->
+
+  <!-- Document icon -->
+  <rect x="60" y="50" width="140" height="200" rx="28" ry="28" fill="#F6F8FC" stroke="#C7CEDA" stroke-width="12"/>
+  <!-- Inner lines -->
+  <rect x="92" y="98" width="76" height="14" rx="7" ry="7" fill="#7091E6" opacity="0.95"/>
+  <rect x="92" y="138" width="56" height="14" rx="7" ry="7" fill="#7EA0F0" opacity="0.95"/>
+  <rect x="92" y="178" width="84" height="14" rx="7" ry="7" fill="#89A8F2" opacity="0.95"/>
+
+  <!-- Text: shub -->
+  <!-- Using a generic rounded UI font stack; convert to outlines in a vector editor if you need strict fidelity -->
+  <text x="230" y="175" font-size="132" font-weight="700" font-family="ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif" fill="#2F3B46" letter-spacing="1">
+    shub
+  </text>
+</svg>
