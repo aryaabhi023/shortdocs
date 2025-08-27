@@ -34,7 +34,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] pb-2 gap-4">
+    <div className="min-h-screen flex flex-col items-center pt-20 bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] pb-2 gap-4">
       <div className="w-[300px] h-[254px] bg-[#927dc3] rounded-[15px] shadow-[1px_5px_60px_0px_rgba(16,10,136,0.42)]">
         <div className="w-[80%] h-[3%] bg-[#9d98f9] mx-auto rounded-b-[15px]" />
         <div className="w-[100px] h-[80px] bg-[#9894f1] rounded-[15px] mx-auto mt-[25px]">
