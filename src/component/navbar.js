@@ -29,7 +29,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-center">
 
         {/* LEFT - Logo */}
-        <div className="absolute left-2 top-3 md:left-8">
+        <div className="hidden md:absolute left-2 top-3 md:left-8">
           <Image src={Logo} alt="Short Docs Logo" width={120} height={40} />
         </div>
 
