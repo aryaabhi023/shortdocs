@@ -68,6 +68,7 @@ export default function Edit({params}) {
         setTitle("");
         setDescription("");
         setContent("");
+        setTags([]);
         router.push(`/read/${id}`);
     } catch (error) {
       console.error("Error saving document:", error);
