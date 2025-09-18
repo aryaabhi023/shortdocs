@@ -61,6 +61,7 @@ export default function Edit({params}) {
         title: title,
         description: description,
         content: content,
+        tags:tags,
         name: user?.displayName,
         email: user?.email,
         });
