@@ -51,7 +51,7 @@ export default function File({ params }) {
         <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen px-4 py-16">
                 {display && 
                     <div className="fixed inset-0 bg-white/70 bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+                        <div className="bg-zinc-100 p-6 rounded-lg shadow-lg max-w-sm text-center">
                             Are You Sure You Want To Delete This Document?
                             <div className="mt-4 flex justify-center gap-4">
                                 <button>
