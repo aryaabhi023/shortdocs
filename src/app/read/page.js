@@ -1,7 +1,8 @@
 "use client";
 
 import { readDocuments } from "@/config/firebaseStore";
-import { useState, useEffect } from "react";
+import { useUserStore } from "@/context/useUserStore";
+import { useState, useEffect, use } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -11,6 +12,9 @@ export default function Read() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [tag, setTag] = useState('');
+  const [selected, setSelected] = useState("all");
+  const user = useUserStore((state) => state.user);
+
   const PAGE_SIZE = 9;
 
   const fetchPage = async (isNext = false) => {
@@ -20,7 +24,8 @@ export default function Read() {
   const { docs, lastVisible: newLast } = await readDocuments({
     pageSize: PAGE_SIZE,
     lastDoc: isNext ? lastVisible : null,
-    tag: tag
+    tag: tag,
+    email: selected === "mine" && user ? user.email : null
   });
 
   setDocuments(prev => isNext ? [...prev, ...docs] : docs);
@@ -33,12 +38,11 @@ export default function Read() {
 
   const handleClick = () => {
     fetchPage(false);
-    setTag('');
   }
 
   useEffect(() => {
     fetchPage();
-  }, []);
+  }, [selected]);
 
   return (
     <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen p-6 py-14 flex flex-col items-center">
@@ -55,6 +59,55 @@ export default function Read() {
           className="mb-6 p-2 w-full max-w-md border border-gray-300 bg-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button className="mb-6 p-2 bg-blue-400 rounded-lg" onClick={handleClick}>Search</button>
+      </div>
+
+      {/* Radio Button */}
+      <div className="mb-8">
+        <div className="relative flex w-fit rounded-xl bg-white/10 backdrop-blur-md shadow-[inset_1px_1px_4px_rgba(255,255,255,0.2),inset_-1px_-1px_6px_rgba(0,0,0,0.3),0_4px_12px_rgba(0,0,0,0.15)] overflow-hidden">
+          {/* ALL */}
+          <input
+            type="radio"
+            id="all"
+            name="filter"
+            value="all"
+            checked={selected === "all"}
+            onChange={(e) => setSelected(e.target.value)}
+            className="hidden"
+          />
+          <label
+            htmlFor="all"
+            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${selected === "all" ? "text-white" : "text-gray-400 hover:text-gray-500"
+              }`}
+          >
+            ALL
+          </label>
+
+          {/* ONLY MINE */}
+          <input
+            type="radio"
+            id="only-mine"
+            name="filter"
+            value="mine"
+            checked={selected === "mine"}
+            onChange={(e) => setSelected(e.target.value)}
+            className="hidden"
+          />
+          <label
+            htmlFor="only-mine"
+            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${selected === "mine" ? "text-white" : "text-gray-400 hover:text-gray-500"
+              }`}
+          >
+            ONLY MINE
+          </label>
+
+          {/* Glider */}
+          <div
+            className={`absolute top-0 bottom-0 w-1/2 rounded-xl transition-transform duration-500 ease-in-out ${selected === "all"
+                ? "translate-x-0 bg-gradient-to-r from-purple-400/60 to-indigo-500 shadow-[0_0_18px_rgba(168,85,247,0.5),0_0_10px_rgba(255,255,255,0.4)_inset]"
+                : "translate-x-full bg-gradient-to-r from-pink-400/60 to-rose-500 shadow-[0_0_18px_rgba(244,114,182,0.5),0_0_10px_rgba(255,255,255,0.4)_inset]"
+              }`}
+          />
+        </div>
       </div>
 
       {loading ? (

@@ -27,12 +27,16 @@ export const createDocument = async (data) => {
   }
 };
 
-export async function readDocuments({ pageSize = 10, lastDoc = null, tag = null }) {
+export async function readDocuments({ pageSize = 10, lastDoc = null, tag = null,email=null }) {
   let constraints = [];
 
   // Filter by tag if provided
   if (tag) {
     constraints.push(where("tags", "array-contains", tag)); // tags must be an array
+  }
+
+  if(email){
+    constraints.push(where("email", "==", email));
   }
 
   // Order by creation date
