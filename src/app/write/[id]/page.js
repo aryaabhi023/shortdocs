@@ -118,7 +118,7 @@ export default function Edit({params}) {
         <label className="block mb-2 text-lg font-medium text-gray-700">Documentation Tags:</label>
         <ReactTagInput
           tags={tags}
-          onChange={(newTags) => setTags(newTags)}
+          onChange={(newTags) => setTags(newTags.map(tag => tag.toUpperCase()))}
           placeholder="Enter tags"
         />
         <label className="block mb-2 text-lg font-medium text-gray-700">Documentation Content:</label>

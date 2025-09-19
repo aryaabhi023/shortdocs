@@ -13,6 +13,7 @@ export default function Read() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [tag, setTag] = useState('');
   const [selected, setSelected] = useState("all");
+  const [refresh, setRefresh] = useState(false);
   const user = useUserStore((state) => state.user);
 
   const PAGE_SIZE = 9;
@@ -40,9 +41,15 @@ export default function Read() {
     fetchPage(false);
   }
 
+  const handleClear = () => {
+    setTag('');
+    setRefresh(!refresh);
+    fetchPage();
+  }
+
   useEffect(() => {
     fetchPage();
-  }, [selected]);
+  }, [selected,refresh]);
 
   return (
     <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen p-6 py-14 flex flex-col items-center">
@@ -58,7 +65,8 @@ export default function Read() {
           onChange={(e) => setTag(e.target.value)}
           className="mb-6 p-2 w-full max-w-md border border-gray-300 bg-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button className="mb-6 p-2 bg-blue-400 rounded-lg" onClick={handleClick}>Search</button>
+        <button className="mb-6 p-2 bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500" onClick={handleClick}>Search</button>
+        <button className="mb-6 p-2 bg-red-400 rounded-lg cursor-pointer hover:bg-red-500" onClick={handleClear}>Clear</button>
       </div>
 
       {/* Radio Button */}

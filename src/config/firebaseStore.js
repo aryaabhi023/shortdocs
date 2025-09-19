@@ -32,7 +32,7 @@ export async function readDocuments({ pageSize = 10, lastDoc = null, tag = null,
 
   // Filter by tag if provided
   if (tag) {
-    constraints.push(where("tags", "array-contains", tag)); // tags must be an array
+    constraints.push(where("tags", "array-contains", tag.toUpperCase())); // tags must be an array
   }
 
   if(email){
