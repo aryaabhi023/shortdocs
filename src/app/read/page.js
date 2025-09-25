@@ -26,7 +26,7 @@ export default function Read() {
     pageSize: PAGE_SIZE,
     lastDoc: isNext ? lastVisible : null,
     tag: tag,
-    email: selected === "mine" && user ? user.email : null
+    email: selected === "mine" ? (user ? user.email: 'a') : null
   });
 
   setDocuments(prev => isNext ? [...prev, ...docs] : docs);

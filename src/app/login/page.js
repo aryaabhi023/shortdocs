@@ -66,7 +66,7 @@ export default function Login() {
                         <input
                             placeholder="Enter your Email"
                             className="ml-2 rounded-xl border-none outline-none w-full h-full font-sans"
-                            type="text"
+                            type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
