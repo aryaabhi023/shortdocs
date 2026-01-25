@@ -38,6 +38,9 @@ export async function readDocuments({ pageSize = 10, lastDoc = null, tag = null,
   if(email){
     constraints.push(where("email", "==", email));
   }
+  else{
+    constraints.push(where("private", "==", false));
+  }
 
   // Order by creation date
   constraints.push(orderBy("createdAt", "desc"));

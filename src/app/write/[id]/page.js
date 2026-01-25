@@ -18,6 +18,7 @@ export default function Edit({params}) {
   const [loading, setLoading] = useState(true);
 
    const [tags, setTags] = useState([]);
+   const [isPrivate, setIsPrivate] = useState(false);
 
   const { id } = use(params);
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function Edit({params}) {
                 setTitle(docData.title);
                 setEmail(docData.email);
                 setTags(docData.tags || []);
+                setIsPrivate(docData.private || false);
             } finally {
                 setLoading(false);
             }
@@ -64,11 +66,13 @@ export default function Edit({params}) {
         tags:tags,
         name: user?.displayName,
         email: user?.email,
+        private: isPrivate
         });
         setTitle("");
         setDescription("");
         setContent("");
         setTags([]);
+        setIsPrivate(false);
         router.push(`/read/${id}`);
     } catch (error) {
       console.error("Error saving document:", error);
@@ -121,6 +125,29 @@ export default function Edit({params}) {
           onChange={(newTags) => setTags(newTags.map(tag => tag.toUpperCase()))}
           placeholder="Enter tags"
         />
+        <div className="flex items-center gap-3 m-4">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={isPrivate}
+              onChange={() => setIsPrivate(!isPrivate)}
+            />
+            <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-orange-400 transition-all"></div>
+            <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+          </label>
+
+          <span className="text-sm font-medium text-gray-700">
+            Private
+          </span>
+
+          {isPrivate && (
+            <span className="text-xs text-orange-600 italic">
+              Only you can see this document
+            </span>
+          )}
+        </div>
+
         <label className="block mb-2 text-lg font-medium text-gray-700">Documentation Content:</label>
         <MDEditor
           value={content}

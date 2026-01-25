@@ -137,12 +137,22 @@ export default function Read() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-100 cursor-pointer h-48 flex flex-col"
+                  className="relative p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-100 cursor-pointer h-48 flex flex-col"
                 >
+                  {doc.private && (
+                    <span className="absolute top-3 right-3 text-[10px] tracking-wide uppercase px-2 py-0.5 rounded border border-orange-400 text-orange-700 bg-white/80">
+                      Private
+                    </span>
+                  )}
+                
                   <h2 className="text-2xl font-bold text-gray-800 mb-2 line-clamp-2">
                     {doc.title}
                   </h2>
-                  <p className="text-gray-600 italic line-clamp-3">{doc.description}</p>
+                
+                  <p className="text-gray-600 italic line-clamp-3">
+                    {doc.description}
+                  </p>
+                
                   {doc.tags && doc.tags.length > 0 && (
                     <div className="mt-auto pt-1">
                       {doc.tags.map((tag, idx) => (
@@ -152,11 +162,11 @@ export default function Read() {
                         >
                           #{tag}
                         </span>
-
                       ))}
                     </div>
                   )}
                 </motion.div>
+
               </Link>
             ))}
           </motion.div>
