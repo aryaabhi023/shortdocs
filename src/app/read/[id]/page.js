@@ -27,6 +27,8 @@ export default function File({ params }) {
         fetchDocument();
     }, [id]);
 
+    console.log(user, document);
+
     const handleClick = () => {
         deleteDocument(id);
         router.push("/read");
@@ -42,6 +44,17 @@ export default function File({ params }) {
                     <p className="mt-4 text-lg font-medium text-gray-700 animate-pulse">
                         Loading...
                     </p>
+                </div>
+            </div>
+        );
+    }
+
+    if(document?.name != user?.displayName){
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8]">
+                <div className="text-center p-6 bg-white rounded-lg shadow-lg max-w-md">
+                    <h1 className="text-2xl font-bold text-red-500">Access Denied</h1>
+                    <p className="mt-2 text-gray-700">You do not have permission to view this document.</p>
                 </div>
             </div>
         );
