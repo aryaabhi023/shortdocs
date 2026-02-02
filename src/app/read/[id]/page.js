@@ -49,7 +49,7 @@ export default function File({ params }) {
         );
     }
 
-    if(document?.name != user?.displayName){
+    if(document.private==true && document?.name != user?.displayName){
         return (
             <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8]">
                 <div className="text-center p-6 bg-white rounded-lg shadow-lg max-w-md">
