@@ -27,7 +27,7 @@ export const createDocument = async (data) => {
   }
 };
 
-export async function readDocuments({ pageSize = 10, lastDoc = null, tag = null,email=null }) {
+export const readDocuments = async ({ pageSize = 10, lastDoc = null, tag = null,email=null }) => {
   let constraints = [];
 
   // Filter by tag if provided

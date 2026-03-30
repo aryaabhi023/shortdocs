@@ -12,6 +12,7 @@ export default function Read() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [tag, setTag] = useState('');
+  const [debounceTag, setDebounceTag] = useState(tag);
   const [selected, setSelected] = useState("all");
   const [refresh, setRefresh] = useState(false);
   const user = useUserStore((state) => state.user);
@@ -25,7 +26,7 @@ export default function Read() {
   const { docs, lastVisible: newLast } = await readDocuments({
     pageSize: PAGE_SIZE,
     lastDoc: isNext ? lastVisible : null,
-    tag: tag,
+    tag: debounceTag,
     email: selected === "mine" ? (user ? user.email: 'a') : null
   });
 
@@ -37,19 +38,19 @@ export default function Read() {
 };
 
 
-  const handleClick = () => {
-    fetchPage(false);
-  }
+  useEffect(()=>{
+    const handler = setTimeout(() => {
+      setDebounceTag(tag);
+    }, 500);
 
-  const handleClear = () => {
-    setTag('');
-    setRefresh(!refresh);
-    fetchPage();
-  }
+    return () => {
+      clearTimeout(handler);
+    };
+  },[tag])
 
   useEffect(() => {
     fetchPage();
-  }, [selected,refresh]);
+  }, [selected,refresh,debounceTag]);
 
   return (
     <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen p-6 py-14 flex flex-col items-center">
@@ -63,10 +64,8 @@ export default function Read() {
           placeholder="Search documents..."
           value={tag}
           onChange={(e) => setTag(e.target.value)}
-          className="mb-6 p-2 w-full max-w-md border border-gray-300 bg-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-2 w-full max-w-md border border-gray-300 bg-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button className="mb-6 p-2 bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500" onClick={handleClick}>Search</button>
-        <button className="mb-6 p-2 bg-red-400 rounded-lg cursor-pointer hover:bg-red-500" onClick={handleClear}>Clear</button>
       </div>
 
       {/* Radio Button */}
