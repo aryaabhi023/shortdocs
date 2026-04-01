@@ -61,10 +61,10 @@ export default function File({ params }) {
     }
 
     return (
-        <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen px-4 py-16">
+        <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen px-4 py-10">
                 {display && 
                     <div className="fixed inset-0 bg-white/70 bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-zinc-100 p-6 rounded-lg shadow-lg max-w-sm text-center">
+                        <div className="bg-zinc-100 p-6 rounded-lg shadow-lg w-full text-center">
                             Are You Sure You Want To Delete This Document?
                             <div className="mt-4 flex justify-center gap-4">
                                 <button>
@@ -84,7 +84,7 @@ export default function File({ params }) {
                         </div>
                     </div>
                 }
-            <div className="relative max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-4 border border-orange-200">
+            <div className="relative mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-4 border border-orange-200">
 
                 {user && user.email === document?.email && (
                     <>
