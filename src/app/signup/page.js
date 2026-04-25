@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { signup, signInWithGoogle } from "@/config/firbaseAuth";
 import Link from "next/link";
 import { useState } from "react";
@@ -32,11 +32,11 @@ export default function Signup() {
       toast.success("Please verify your email before logging in!", {
         duration: 5000, // 5 seconds
         style: {
-          background: '#4ade80',
-          color: '#fff',
-          fontWeight: 'bold',
-          borderRadius: '8px',
-          padding: '12px',
+          background: "#4ade80",
+          color: "#fff",
+          fontWeight: "bold",
+          borderRadius: "8px",
+          padding: "12px",
         },
       });
 
@@ -45,29 +45,28 @@ export default function Signup() {
       setPassword("");
       setConfirmPassword("");
       setName("");
-
-    }
-    catch (error) {
+    } catch (error) {
       setError(error.message);
     }
-  }
+  };
 
   const handleClick = async () => {
     try {
       const result = await signInWithGoogle();
-      router.push('/');
+      router.push("/");
     } catch (error) {
       setError(error.message);
     }
-  }
-
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] pb-2">
-      <div className="flex flex-col gap-2 bg-white p-8 py-4 w-[450px] rounded-2xl font-sans shadow mx-auto my-16 border-l-2 border-l-orange-200 border-r-2 border-r-orange-200 border-t-2 border-t-emerald-200 border-b-2 border-b-emerald-200">
-        <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
+      <div className="flex flex-col gap-2 bg-white p-8 py-4 w-[450px] rounded-2xl font-sans shadow-2xl mx-auto my-16 border-[#ededef]">
+        <form className="flex flex-col gap-1 w-full" onSubmit={handleSubmit}>
           <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
-          {error && <p className="text-red-500 text-sm text-center py-2">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-sm text-center py-2">{error}</p>
+          )}
           {/* Name */}
           <div className="flex flex-col">
             <label className="text-[#151717] font-semibold">Full Name</label>
@@ -115,7 +114,9 @@ export default function Signup() {
 
           {/* Confirm Password */}
           <div className="flex flex-col">
-            <label className="text-[#151717] font-semibold">Confirm Password</label>
+            <label className="text-[#151717] font-semibold">
+              Confirm Password
+            </label>
           </div>
           <div className="flex items-center border border-[#ecedec] rounded-xl h-12 pl-2 transition focus-within:border-blue-600">
             <input
@@ -129,14 +130,20 @@ export default function Signup() {
           </div>
 
           {/* Sign Up button */}
-          <button className="mt-5 mb-2 bg-[#151717] text-white text-sm font-medium rounded-xl h-12 w-full cursor-pointer" type="submit">
+          <button
+            className="mt-5 mb-2 bg-[#151717] text-white text-sm font-medium rounded-xl h-12 w-full cursor-pointer"
+            type="submit"
+          >
             Sign Up
           </button>
 
           {/* Already have account */}
           <p className="text-center text-black text-sm my-1">
             Already have an account?{" "}
-            <Link href={'/login'} className="text-blue-600 font-medium cursor-pointer">
+            <Link
+              href={"/login"}
+              className="text-blue-600 font-medium cursor-pointer"
+            >
               Sign In
             </Link>
           </p>
@@ -145,12 +152,11 @@ export default function Signup() {
           {/* Social buttons */}
           <div className="flex flex-row gap-2">
             {/* Google */}
-            <button className="mt-2 w-full h-12 rounded-xl flex justify-center items-center font-medium gap-2 border border-[#ededef] bg-white cursor-pointer hover:border-blue-600 transition" onClick={handleClick}>
-              <svg
-                viewBox="0 0 512 512"
-                width={20}
-                height={20}
-              >
+            <button
+              className="mt-2 w-full h-12 rounded-xl flex justify-center items-center font-medium gap-2 border border-[#ededef] bg-white cursor-pointer hover:border-blue-600 transition"
+              onClick={handleClick}
+            >
+              <svg viewBox="0 0 512 512" width={20} height={20}>
                 <path
                   fill="#FBBB00"
                   d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
@@ -184,6 +190,5 @@ export default function Signup() {
         </form>
       </div>
     </div>
-
   );
 }
