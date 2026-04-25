@@ -2,7 +2,8 @@
 
 import { readDocuments } from "@/config/firebaseStore";
 import { useUserStore } from "@/context/useUserStore";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -11,34 +12,37 @@ export default function Read() {
   const [lastVisible, setLastVisible] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState("");
   const [debounceTag, setDebounceTag] = useState(tag);
   const [selected, setSelected] = useState("all");
   const [refresh, setRefresh] = useState(false);
   const user = useUserStore((state) => state.user);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const PAGE_SIZE = 9;
 
   const fetchPage = async (isNext = false) => {
-  if (isNext) setLoadingMore(true);
-  else setLoading(true);
+    if (isNext) setLoadingMore(true);
+    else setLoading(true);
 
-  const { docs, lastVisible: newLast } = await readDocuments({
-    pageSize: PAGE_SIZE,
-    lastDoc: isNext ? lastVisible : null,
-    tag: debounceTag,
-    email: selected === "mine" ? (user ? user.email: 'a') : null
-  });
+    const { docs, lastVisible: newLast } = await readDocuments({
+      pageSize: PAGE_SIZE,
+      lastDoc: isNext ? lastVisible : null,
+      tag: debounceTag,
+      email: selected === "mine" ? (user ? user.email : "a") : null,
+    });
 
-  setDocuments(prev => isNext ? [...prev, ...docs] : docs);
-  setLastVisible(newLast);
+    setDocuments((prev) => (isNext ? [...prev, ...docs] : docs));
+    setLastVisible(newLast);
 
-  if (isNext) setLoadingMore(false);
-  else setLoading(false);
-};
+    if (isNext) setLoadingMore(false);
+    else setLoading(false);
+  };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const handler = setTimeout(() => {
       setDebounceTag(tag);
     }, 500);
@@ -46,11 +50,20 @@ export default function Read() {
     return () => {
       clearTimeout(handler);
     };
-  },[tag])
+  }, [tag]);
+
+  useEffect(() => {
+    const qp = searchParams.get("filter");
+    if (qp === "mine" || qp === "all") {
+      setSelected(qp);
+    } else {
+      router.replace(`${pathname}?filter=${selected}`);
+    }
+  }, [searchParams, router, pathname]);
 
   useEffect(() => {
     fetchPage();
-  }, [selected,refresh,debounceTag]);
+  }, [selected, refresh, debounceTag]);
 
   return (
     <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen p-6 py-14 flex flex-col items-center">
@@ -78,13 +91,23 @@ export default function Read() {
             name="filter"
             value="all"
             checked={selected === "all"}
-            onChange={(e) => setSelected(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelected(value);
+              const current = searchParams.get("filter");
+              if (current !== value) {
+                router.push(`${pathname}?filter=${value}`);
+              }
+            }}
             className="hidden"
           />
           <label
             htmlFor="all"
-            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${selected === "all" ? "text-white" : "text-gray-400 hover:text-gray-500"
-              }`}
+            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${
+              selected === "all"
+                ? "text-white"
+                : "text-gray-400 hover:text-gray-500"
+            }`}
           >
             ALL
           </label>
@@ -96,23 +119,34 @@ export default function Read() {
             name="filter"
             value="mine"
             checked={selected === "mine"}
-            onChange={(e) => setSelected(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelected(value);
+              const current = searchParams.get("filter");
+              if (current !== value) {
+                router.push(`${pathname}?filter=${value}`);
+              }
+            }}
             className="hidden"
           />
           <label
             htmlFor="only-mine"
-            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${selected === "mine" ? "text-white" : "text-gray-400 hover:text-gray-500"
-              }`}
+            className={`flex items-center justify-center min-w-[100px] px-6 py-2 cursor-pointer font-semibold text-sm transition-colors relative z-10 ${
+              selected === "mine"
+                ? "text-white"
+                : "text-gray-400 hover:text-gray-500"
+            }`}
           >
             ONLY MINE
           </label>
 
           {/* Glider */}
           <div
-            className={`absolute top-0 bottom-0 w-1/2 rounded-xl transition-transform duration-500 ease-in-out ${selected === "all"
+            className={`absolute top-0 bottom-0 w-1/2 rounded-xl transition-transform duration-500 ease-in-out ${
+              selected === "all"
                 ? "translate-x-0 bg-gradient-to-r from-purple-400/60 to-indigo-500 shadow-[0_0_18px_rgba(168,85,247,0.5),0_0_10px_rgba(255,255,255,0.4)_inset]"
                 : "translate-x-full bg-gradient-to-r from-pink-400/60 to-rose-500 shadow-[0_0_18px_rgba(244,114,182,0.5),0_0_10px_rgba(255,255,255,0.4)_inset]"
-              }`}
+            }`}
           />
         </div>
       </div>
@@ -143,15 +177,15 @@ export default function Read() {
                       Private
                     </span>
                   )}
-                
+
                   <h2 className="text-2xl font-bold text-gray-800 mb-2 line-clamp-2">
                     {doc.title}
                   </h2>
-                
+
                   <p className="text-gray-600 italic line-clamp-3">
                     {doc.description}
                   </p>
-                
+
                   {doc.tags && doc.tags.length > 0 && (
                     <div className="mt-auto pt-1">
                       {doc.tags.map((tag, idx) => (
@@ -165,7 +199,6 @@ export default function Read() {
                     </div>
                   )}
                 </motion.div>
-
               </Link>
             ))}
           </motion.div>
