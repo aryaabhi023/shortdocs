@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/component/navbar";
 import PopUp from "@/component/popup";
 import Footer from "@/component/footer";
+import ClientInit from "./ClientInit";
 
 export const metadata = {
   title: "Short Docs",
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <ClientInit />
         <Navbar />
         <main>{children}</main>
         <PopUp />

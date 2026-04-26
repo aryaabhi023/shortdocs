@@ -75,9 +75,12 @@ export const sendPasswordReset = async (email) => {
 };
 
 export const listenToAuthChanges = () => {
-  const { setUser, clearUser } = useUserStore.getState();
+  const { setUser, clearUser, setInitialized } = useUserStore.getState();
   const unsub = onAuthStateChanged(auth, (user) => {
-    user && user.emailVerified ? setUser(user) : clearUser();
+    if (user && user.emailVerified) setUser(user);
+    else clearUser();
+    // mark that the initial auth check has completed
+    setInitialized(true);
   });
   return unsub;
 };

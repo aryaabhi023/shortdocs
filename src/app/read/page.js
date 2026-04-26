@@ -17,6 +17,7 @@ export default function Read() {
   const [selected, setSelected] = useState("all");
   const [refresh, setRefresh] = useState(false);
   const user = useUserStore((state) => state.user);
+  const initialized = useUserStore((state) => state.initialized);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,7 +33,7 @@ export default function Read() {
       pageSize: PAGE_SIZE,
       lastDoc: isNext ? lastVisible : null,
       tag: debounceTag,
-      email: selected === "mine" ? (user ? user.email : "a") : null,
+      email: selected === "mine" ? user?.email : null,
     });
 
     setDocuments((prev) => (isNext ? [...prev, ...docs] : docs));
@@ -62,8 +63,10 @@ export default function Read() {
   }, [searchParams, router, pathname]);
 
   useEffect(() => {
+    // if user-specific documents are requested, wait for global initialization
+    if (selected === "mine" && !initialized) return;
     fetchPage();
-  }, [selected, refresh, debounceTag]);
+  }, [selected, refresh, debounceTag, initialized]);
 
   return (
     <div className="bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8] min-h-screen p-6 py-14 flex flex-col items-center">

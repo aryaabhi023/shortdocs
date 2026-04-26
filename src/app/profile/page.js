@@ -7,6 +7,7 @@ import avatar from "../../../public/avatar.svg";
 
 export default function Profile() {
   const user = useUserStore((state) => state.user);
+  const initialized = useUserStore((state) => state.initialized);
 
   const router = useRouter();
 
@@ -14,13 +15,16 @@ export default function Profile() {
     await logout();
   };
 
- useEffect(() => {
-    if (!user) {
+  useEffect(() => {
+    // Only redirect to login after we've finished the initial auth check
+    if (initialized && user === null) {
       router.push("/login");
     }
-  }, [user, router]);
+  }, [initialized, user, router]);
 
-  if (!user) {
+  // While Firebase is initializing (user is undefined) or during the redirect
+  // show a loading state to avoid UI flicker.
+  if (!initialized || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#c7d2fe] via-white to-[#fbcfe8]">
         <div className="flex flex-col items-center gap-4">
@@ -38,11 +42,11 @@ export default function Profile() {
       <div className="w-[300px] h-[254px] bg-[#927dc3] rounded-[15px] shadow-[1px_5px_60px_0px_rgba(16,10,136,0.42)]">
         <div className="w-[80%] h-[3%] bg-[#9d98f9] mx-auto rounded-b-[15px]" />
         <div className="w-[100px] h-[80px] bg-[#9894f1] rounded-[15px] mx-auto mt-[25px]">
-            <img
-                src={user?.photoURL || avatar.src}
-                alt="User Avatar"
-                className="w-full h-full object-cover rounded-[15px]"
-            />
+          <img
+            src={user?.photoURL || avatar.src}
+            alt="User Avatar"
+            className="w-full h-full object-cover rounded-[15px]"
+          />
         </div>
         <span className="font-semibold text-white text-center block pt-[10px] text-[16px]">
           {user.displayName || "Anonymous"}
