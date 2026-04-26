@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import { readDocuments } from "@/config/firebaseStore";
 import { useUserStore } from "@/context/useUserStore";
