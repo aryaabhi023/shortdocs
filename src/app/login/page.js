@@ -100,12 +100,7 @@ export default function Login() {
 
           {/* Remember me */}
           <div className="flex flex-row items-center justify-between gap-2">
-            <div className="flex items-center gap-1">
-              <input type="radio" />
-              <label className="text-sm text-black font-normal">
-                Remember me
-              </label>
-            </div>
+            <div className="flex items-center gap-1"></div>
             <Link
               href="/password-reset"
               className="text-sm ml-1 text-blue-600 font-medium cursor-pointer"
